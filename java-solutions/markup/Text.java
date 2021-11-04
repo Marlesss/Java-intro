@@ -1,6 +1,7 @@
 package markup;
 
 public class Text implements TextValue {
+    // :NOTE: модификатор доступа
     String text;
 
     public Text(String text) {

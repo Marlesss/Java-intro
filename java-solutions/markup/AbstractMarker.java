@@ -3,6 +3,7 @@ package markup;
 import java.util.List;
 
 public abstract class AbstractMarker extends Paragraph {
+    // :NOTE: имена переменных
     protected String marker;
     protected String html_open_tag;
     protected String html_close_tag;
