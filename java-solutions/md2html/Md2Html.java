@@ -47,10 +47,10 @@ public class Md2Html {
             int i;
             loop:
             for (j = 0; j < size; j++) {
-                if (System.lineSeparator().contains(String.valueOf(data[j]))) {
+                if ("/r/n".contains(String.valueOf(data[j]))) {
 
                     // because of two-character line break
-                    if (System.lineSeparator().contains(String.valueOf(data[j + 1]))) {
+                    if ("/r/n".contains(String.valueOf(data[j + 1]))) {
                         j++;
                     }
 
@@ -229,10 +229,10 @@ public class Md2Html {
         boolean empty_line = false;
         boolean flag;
         for (int i = from; i < size; i++) {
-            if (System.lineSeparator().contains(String.valueOf(data[i]))) {
+            if ("/r/n".contains(String.valueOf(data[i]))) {
 
                 // because of two-character line break
-                if (System.lineSeparator().contains(String.valueOf(data[i + 1]))) {
+                if ("/r/n".contains(String.valueOf(data[i + 1]))) {
                     i++;
                 }
 
