@@ -5,8 +5,8 @@ public class MyScanner {
     private final Reader in;
     private IOException lastException;
     private final int sz = 1024;
-    public final char[] buffer = new char[sz];
-    public int readFrom = 0, readTo = 0;
+    private final char[] buffer = new char[sz];
+    private int readFrom = 0, readTo = 0;
 
     public MyScanner(Reader in) {
         this.in = in;
@@ -28,7 +28,7 @@ public class MyScanner {
         return fillBuf(0);
     }
 
-    public int fillBuf(int off) {
+    private int fillBuf(int off) {
         int read;
         try {
             read = in.read(buffer, off, sz - off);
@@ -41,7 +41,7 @@ public class MyScanner {
         return read;
     }
 
-    public int read() {
+    private int read() {
         if (readFrom >= readTo) {
             if (fillBuf() == -1) {
                 return -1;
@@ -51,7 +51,7 @@ public class MyScanner {
         return buffer[readFrom];
     }
 
-    public int removeStart(int off) {
+    private int removeStart(int off) {
         System.arraycopy(Arrays.copyOfRange(buffer, off, sz), 0, buffer, 0, sz - off);
         readFrom = -1;
         int oldReadTo = readTo;
@@ -150,26 +150,6 @@ public class MyScanner {
                 readFrom = readTo;
                 return String.valueOf(Arrays.copyOfRange(buffer, start, readTo + 1));
             }
-            /*
-            StringBuilder line = new StringBuilder();
-            int r;
-            char chr;
-            while (true) {
-                r = read();
-                if (r == -1) {
-                    return line.toString();
-                }
-                chr = (char) r;
-                if (Character.isWhitespace(chr)) {
-                    if (line.isEmpty()) {
-                        continue;
-                    }
-                    return line.toString();
-                }
-                line.append(chr);
-            }
-
-             */
         }
         return null;
     }
