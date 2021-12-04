@@ -1,25 +1,23 @@
-import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.io.*;
 
 
-public class WsppSortedPosition {
+public class Wspp {
     public static void main(final String[] args) {
-        Map<String, List<Integer>> dict = new TreeMap<>();
+        Map<String, ArrayList<Integer>> dict = new LinkedHashMap<>();
         try {
             String inputFileName = args[0];
             String outputFileName = args[1];
             MyScanner in = new MyScanner(new FileReader(inputFileName, StandardCharsets.UTF_8));
             try {
                 String line, word;
-                int line_count = 0;
+                int count = 0;
                 while (true) {
                     line = in.nextLine();
                     if (line == null) {
                         break;
                     }
-                    line_count++;
-                    int word_count = 0;
                     line = line.toLowerCase().stripLeading();
                     MyScanner wordScanner = new MyScanner(line);
                     while (true) {
@@ -28,27 +26,29 @@ public class WsppSortedPosition {
                             break;
                         }
                         dict.putIfAbsent(word, new ArrayList<>());
-                        word_count++;
-                        dict.get(word).add(line_count);
-                        dict.get(word).add(word_count);
+                        count++;
+                        dict.get(word).add(count);
                     }
                 }
             } finally {
                 in.close();
             }
-            try (BufferedWriter out = new BufferedWriter(
+            BufferedWriter out = new BufferedWriter(
                     new OutputStreamWriter(
                             new FileOutputStream(outputFileName),
                             StandardCharsets.UTF_8
                     )
-            )) {
+            );
+            try {
                 for (String word : dict.keySet()) {
-                    out.write(word + " " + dict.get(word).size() / 2);
-                    for (int i = 0; i < dict.get(word).size(); i += 2) {
-                        out.write(" " + dict.get(word).get(i) + ":" + dict.get(word).get(i + 1));
+                    out.write(word + " " + dict.get(word).size());
+                    for (Integer x : dict.get(word)) {
+                        out.write(" " + x);
                     }
                     out.newLine();
                 }
+            } finally {
+                out.close();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Arguments entering error: " + e.getMessage());
