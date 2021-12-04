@@ -10,7 +10,6 @@ public class Md2Html {
     static int j;
 
     public static void main(final String[] args) {
-        String tags_chars = "*_-`";
         Map<Character, String> specialSymbols = new HashMap<>();
         specialSymbols.put('<', "&lt;");
         specialSymbols.put('>', "&gt;");
@@ -28,7 +27,6 @@ public class Md2Html {
         ) {
             data = new char[1024];
             size = 0;
-            int index = 0;
             int symb;
             while (true) {
                 symb = in.read();
