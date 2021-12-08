@@ -1,8 +1,8 @@
 package expression;
 
 abstract class BinaryOperation implements SuperExpression {
-    protected final SuperExpression first;
-    protected final SuperExpression second;
+    private final SuperExpression first;
+    private final SuperExpression second;
 
 
     public BinaryOperation(SuperExpression first, SuperExpression second) {
@@ -12,31 +12,15 @@ abstract class BinaryOperation implements SuperExpression {
 
     @Override
     public int evaluate(int x) {
-        if (getOperationChar() == '+') {
-            return first.evaluate(x) + second.evaluate(x);
-        }
-        if (getOperationChar() == '-') {
-            return first.evaluate(x) - second.evaluate(x);
-        }
-        if (getOperationChar() == '*') {
-            return first.evaluate(x) * second.evaluate(x);
-        }
-        return first.evaluate(x) / second.evaluate(x);
+        return calc(first.evaluate(x), second.evaluate(x));
     }
 
     @Override
     public int evaluate(int x, int y, int z) {
-        if (getOperationChar() == '+') {
-            return first.evaluate(x, y, z) + second.evaluate(x, y, z);
-        }
-        if (getOperationChar() == '-') {
-            return first.evaluate(x, y, z) - second.evaluate(x, y, z);
-        }
-        if (getOperationChar() == '*') {
-            return first.evaluate(x, y, z) * second.evaluate(x, y, z);
-        }
-        return first.evaluate(x, y, z) / second.evaluate(x, y, z);
+        return calc(first.evaluate(x, y, z), second.evaluate(x, y, z));
     }
+
+    protected abstract int calc(int x, int y);
 
 
     @Override
@@ -47,7 +31,7 @@ abstract class BinaryOperation implements SuperExpression {
     public boolean equals(Object obj) {
         if (obj instanceof BinaryOperation) {
             BinaryOperation other = (BinaryOperation) obj;
-            return first.equals(other.first) && getOperationChar() == other.getOperationChar() &&
+            return getOperationChar() == other.getOperationChar() && first.equals(other.first) &&
                     second.equals(other.second);
         }
         return false;

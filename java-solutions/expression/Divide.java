@@ -10,4 +10,9 @@ public class Divide extends BinaryOperation {
         return '/';
     }
 
+    @Override
+    protected int calc(int x, int y) {
+        return x / y;
+    }
+
 }
