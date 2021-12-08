@@ -47,7 +47,7 @@ abstract class BinaryOperation implements SuperExpression {
     public boolean equals(Object obj) {
         if (obj instanceof BinaryOperation) {
             BinaryOperation other = (BinaryOperation) obj;
-            return first.equals(other.first) && getOperationChar() == other.getOperationChar() &&
+            return getOperationChar() == other.getOperationChar() && first.equals(other.first) &&
                     second.equals(other.second);
         }
         return false;
