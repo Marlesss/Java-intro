@@ -25,21 +25,21 @@ abstract class BinaryOperation implements SuperExpression {
 
     @Override
     public String toString() {
-        return "(" + first.toString() + " " + getOperationChar() + " " + second.toString() + ")";
+        return "(" + first.toString() + " " + getOperation() + " " + second.toString() + ")";
     }
 
     public boolean equals(Object obj) {
         if (obj instanceof BinaryOperation) {
             BinaryOperation other = (BinaryOperation) obj;
-            return getOperationChar() == other.getOperationChar() && first.equals(other.first) &&
+            return getOperation().equals(other.getOperation()) && first.equals(other.first) &&
                     second.equals(other.second);
         }
         return false;
     }
 
     public int hashCode() {
-        return (first.hashCode() * 17 + second.hashCode()) * 17 + getOperationChar();
+        return (first.hashCode() * 17 + second.hashCode()) * 17 + getOperation().hashCode();
     }
 
-    protected abstract char getOperationChar();
+    protected abstract String getOperation();
 }

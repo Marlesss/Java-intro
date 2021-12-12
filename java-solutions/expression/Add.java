@@ -6,8 +6,8 @@ public class Add extends BinaryOperation {
     }
 
     @Override
-    protected char getOperationChar() {
-        return '+';
+    protected String getOperation() {
+        return "+";
     }
 
     @Override

@@ -1,18 +1,18 @@
 package expression;
 
-public class Divide extends BinaryOperation {
-    public Divide(SuperExpression first, SuperExpression second) {
+public class Min extends BinaryOperation {
+    public Min(SuperExpression first, SuperExpression second) {
         super(first, second);
     }
 
     @Override
     protected String getOperation() {
-        return "/";
+        return "min";
     }
 
     @Override
     protected int calc(int x, int y) {
-        return x / y;
+        return Math.min(x, y);
     }
 
 }

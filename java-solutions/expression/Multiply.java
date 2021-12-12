@@ -7,8 +7,8 @@ public class Multiply extends BinaryOperation {
     }
 
     @Override
-    protected char getOperationChar() {
-        return '*';
+    protected String getOperation() {
+        return "*";
     }
 
     @Override
