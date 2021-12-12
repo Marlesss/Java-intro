@@ -24,7 +24,7 @@ public class MyScanner {
         this(new InputStreamReader(source));
     }
 
-    public int fillBuf() {
+    private int fillBuf() {
         return fillBuf(0);
     }
 
