@@ -5,7 +5,8 @@ import java.util.*;
 
 public class WsppSortedPosition {
     public static void main(final String[] args) {
-        Map<String, List<Integer>> dict = new TreeMap<>();
+        final int length = 100;
+        Map<String, Integer[]> dict = new TreeMap<>();
         try {
             String inputFileName = args[0];
             String outputFileName = args[1];
@@ -27,11 +28,18 @@ public class WsppSortedPosition {
                         if (word == null) {
                             break;
                         }
-                        dict.putIfAbsent(word, new ArrayList<>());
+                        dict.putIfAbsent(word, new Integer[length]);
                         word_count++;
-                        List<Integer> dictWord = dict.get(word);
-                        dictWord.add(line_count);
-                        dictWord.add(word_count);
+                        Integer[] dictWord = dict.get(word);
+                        if (dictWord[0] == null) {
+                            dictWord[0] = 0;
+                        }
+                        if (dictWord[0] + 2 >= dictWord.length) {
+                            dict.put(word, Arrays.copyOf(dictWord, dictWord.length * 2));
+                            dictWord = dict.get(word);
+                        }
+                        dictWord[++dictWord[0]] = line_count;
+                        dictWord[++dictWord[0]] = word_count;
                     }
                 }
             } finally {
@@ -43,11 +51,11 @@ public class WsppSortedPosition {
                             StandardCharsets.UTF_8
                     )
             )) {
-                for (Map.Entry<String, List<Integer>> entry : dict.entrySet()) {
-                    List<Integer> value = entry.getValue();
-                    out.write(entry.getKey() + " " + value.size() / 2);
-                    for (int i = 0; i < value.size(); i += 2) {
-                        out.write(" " + value.get(i) + ":" + value.get(i + 1));
+                for (Map.Entry<String, Integer[]> entry : dict.entrySet()) {
+                    Integer[] value = entry.getValue();
+                    out.write(entry.getKey() + " " + value[0] / 2);
+                    for (int i = 1; i <= value[0]; i += 2) {
+                        out.write(" " + value[i] + ":" + value[i + 1]);
                     }
                     out.newLine();
                 }
