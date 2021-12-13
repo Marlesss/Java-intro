@@ -20,7 +20,7 @@ public class WsppSortedPosition {
                     }
                     line_count++;
                     int word_count = 0;
-                    line = line.toLowerCase().stripLeading();
+                    line = line.toLowerCase();
                     MyScanner wordScanner = new MyScanner(line);
                     while (true) {
                         word = wordScanner.nextWord();
@@ -29,8 +29,9 @@ public class WsppSortedPosition {
                         }
                         dict.putIfAbsent(word, new ArrayList<>());
                         word_count++;
-                        dict.get(word).add(line_count);
-                        dict.get(word).add(word_count);
+                        List<Integer> dictWord = dict.get(word);
+                        dictWord.add(line_count);
+                        dictWord.add(word_count);
                     }
                 }
             } finally {
@@ -42,10 +43,11 @@ public class WsppSortedPosition {
                             StandardCharsets.UTF_8
                     )
             )) {
-                for (String word : dict.keySet()) {
-                    out.write(word + " " + dict.get(word).size() / 2);
-                    for (int i = 0; i < dict.get(word).size(); i += 2) {
-                        out.write(" " + dict.get(word).get(i) + ":" + dict.get(word).get(i + 1));
+                for (Map.Entry<String, List<Integer>> entry : dict.entrySet()) {
+                    List<Integer> value = entry.getValue();
+                    out.write(entry.getKey() + " " + value.size() / 2);
+                    for (int i = 0; i < value.size(); i += 2) {
+                        out.write(" " + value.get(i) + ":" + value.get(i + 1));
                     }
                     out.newLine();
                 }
