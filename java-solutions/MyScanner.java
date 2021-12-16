@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class MyScanner {
     private final Reader in;
     private IOException lastException;
-    private final int sz = 1024;
+    private final int sz = 2048;
     private final char[] buffer = new char[sz];
     private int readFrom = 0, readTo = 0;
 
@@ -66,6 +66,7 @@ public class MyScanner {
     public String nextLine() {
         StringBuilder line = new StringBuilder();
         int i;
+        loop:
         while (true) {
             if (readFrom >= readTo) {
                 if (fillBuf() == -1) {
@@ -76,21 +77,30 @@ public class MyScanner {
                 }
             }
             for (i = readFrom + 1; i <= readTo; i++) {
-                if (buffer[i] == '\n') {
-                    if (i > 0 && buffer[i - 1] == '\r') {
-                        line.append(Arrays.copyOfRange(buffer, readFrom + 1, i - 1));
+                if (buffer[i] == System.lineSeparator().charAt(0)) {
+                    if (System.lineSeparator().length() == 1) {
+                        line.append(Arrays.copyOfRange(buffer, readFrom + 1, i));
+                        readFrom = i;
+                        return line.toString();
+                    } else if (i < readTo) {
+                        if (buffer[i + 1] == System.lineSeparator().charAt(1)) {
+                            line.append(Arrays.copyOfRange(buffer, readFrom + 1, i));
+                            readFrom = i + 1;
+                            return line.toString();
+                        }
                     } else {
                         line.append(Arrays.copyOfRange(buffer, readFrom + 1, i));
+                        if (removeStart(i) <= -1) {
+                            line.append(buffer[0]);
+                            readFrom = 0;
+                            return line.toString();
+                        }
+                        continue loop;
+
                     }
-                    readFrom = i;
-                    return line.toString();
                 }
             }
-            if (buffer[readTo - 1] == '\r') {
-                line.append(Arrays.copyOfRange(buffer, readFrom + 1, readTo));
-            } else {
-                line.append(Arrays.copyOfRange(buffer, readFrom + 1, readTo + 1));
-            }
+            line.append(Arrays.copyOfRange(buffer, readFrom + 1, readTo + 1));
             readFrom = readTo;
         }
     }
